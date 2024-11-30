@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Icon; // ここを追加
+use App\Models\Icon;
 
 class IconController extends Controller
 {
@@ -42,7 +42,7 @@ class IconController extends Controller
 		   * 3. データ登録
 		   * （画像は今回省略しています）
 		   */
-	    $new_icon = new Icon();
+	   	$new_icon = new Icon();
 		$new_icon->title = $request->title;
 		$new_icon->description = $request->description;
 		
@@ -53,5 +53,35 @@ class IconController extends Controller
 			 */
 	    return redirect('/dashboard');
     }
+    
+    /*
+     * update関数はこちら
+     */
+    public function update(Request $request, $icon_id){
+  
+  
+		
+			$icon = Icon::find($icon_id);
+		  
+		  $icon->title = $request->title;
+		  $icon->description = $request->description;
+		  
+		  $icon->save();
+		  
+		  return redirect('/dashboard');
+    }
+    
+    /*
+     * destroy関数はこちら
+     */
+    public function destroy($icon_id){
+    
+  			$icon = Icon::find($icon_id);
+        $icon->delete();
+        
+				// 上の2行は以下のようにしてもOKです
+        Icon::destroy($icon_id);
+        
+        return redirect('/dashboard');
+	}
 }
-
